@@ -1,0 +1,4 @@
+clean
+runMain
+runMain launch
+exit
