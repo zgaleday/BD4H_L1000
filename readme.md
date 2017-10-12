@@ -23,5 +23,5 @@ Run the following commands in the root dir
 
 ## Helpful Links
 
-[SparkSql](https://spark.apache.org/docs/latest/sql-programming-guide.html#sql)
-[MLLib](https://spark.apache.org/docs/latest/ml-guide.html)
+* [SparkSql](https://spark.apache.org/docs/latest/sql-programming-guide.html#sql)
+* [MLLib](https://spark.apache.org/docs/latest/ml-guide.html)
