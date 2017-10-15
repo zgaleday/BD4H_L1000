@@ -6,7 +6,7 @@ import stat.calcOffsidesStats
 
 object launch {
   val appName: String = "bd4h_l1000"
-  val clusterId: String = "loacal"
+  val clusterId: String = "local"
   val sparkConf: SparkConf = new SparkConf().setAppName(appName).setMaster(clusterId)
   val sc: SparkContext = new SparkContext(sparkConf)
   val ss: SparkSession = SparkSession
