@@ -11,7 +11,7 @@ We chemistry, drugs, and data!
 ## Environment
 1) Java 1.8
 2) Sbt 0.13.16
-3) Scala 2.12.13
+3) Scala 2.11.8
 
 See `build.sbt` for dependency versioning
 
