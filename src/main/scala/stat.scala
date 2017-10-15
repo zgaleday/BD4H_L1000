@@ -4,7 +4,7 @@ import Utils.calcMedian
 
 object stat {
   def calcOffsidesAdrsPerDrug(data: RDD[Offside]): Unit = {
-    val adrPerDrug = data
+    val adrsPerDrug = data
       .map((o) => (o.stitchId, o.umlsId))
       .distinct()
       .groupBy(_._1)
@@ -13,10 +13,10 @@ object stat {
     println(
       "ADRs per Drug",
       "min, max, mean, median ",
-      adrPerDrug.min(),
-      adrPerDrug.max(),
-      adrPerDrug.mean(),
-      calcMedian(adrPerDrug))
+      adrsPerDrug.min(),
+      adrsPerDrug.max(),
+      adrsPerDrug.mean(),
+      calcMedian(adrsPerDrug))
   }
 
   def calcOffsidesDrugsPerAdr(data: RDD[Offside]): Unit = {
