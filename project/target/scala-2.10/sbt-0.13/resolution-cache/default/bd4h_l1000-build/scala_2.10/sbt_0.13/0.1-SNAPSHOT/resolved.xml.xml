@@ -4,7 +4,7 @@
 		module="bd4h_l1000-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20171011223851"
+		publication="20171015172437"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>

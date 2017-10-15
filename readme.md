@@ -19,6 +19,7 @@ See `build.sbt` for dependency versioning
 Run the following commands in the root dir
 * `sbt`
 * `clean`
+* `project bd4h_l1000`
 * `runMain launch`
 
 ## Helpful Links

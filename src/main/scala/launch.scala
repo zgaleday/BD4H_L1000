@@ -1,10 +1,23 @@
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
-import l1000_feature_construc.l1000_feature_constr._
+import stat.calcOffsidesStats
+
 
 object launch {
-  def main(args: Array[String]): Unit = {
-    println("Time for some statistics")
+  val appName: String = "bd4h_l1000"
+  val clusterId: String = "local"
+  val sparkConf: SparkConf = new SparkConf().setAppName(appName).setMaster(clusterId)
+  val sc: SparkContext = new SparkContext(sparkConf)
+  val ss: SparkSession = SparkSession
+    .builder()
+    .appName(appName)
+    .getOrCreate()
 
-    val l1000_data = loadFeatures(ss, "data/l1000_scala_features.txt")
+  def main(args: Array[String]): Unit = {
+    val offsidesData: RDD[Offside] = Utils.readOffsidesData(sc)
+
+    calcOffsidesStats(offsidesData)
+    sc.stop()
   }
 }
