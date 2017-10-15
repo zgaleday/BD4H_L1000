@@ -2,3 +2,19 @@ clean
 runMain
 runMain launch
 exit
+clean
+compile
+project bd4h_l1000
+runMain launch
+clean
+compile
+clean
+compile
+clean
+runMain launch
+clean
+runMain launch
+clean
+runMain launch
+clean
+runMain launch
