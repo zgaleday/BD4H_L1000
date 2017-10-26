@@ -16,11 +16,15 @@ object launch {
     .getOrCreate()
 
   def main(args: Array[String]): Unit = {
-    val offsidesData: RDD[Offside] = Utils.readOffsidesData(sc)
 
+    val offsidesData: RDD[Offside] = Utils.readOffsidesData(sc)
     calcOffsidesStats(offsidesData)
 
+    SIDER.read_meddra_tsv(sc)
+    SIDER.read_meddra_all_se_tsv(sc)
+
     val l1000_features: DataFrame = loadFeatures(ss)
+
     sc.stop()
   }
 }
