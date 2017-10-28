@@ -37,7 +37,7 @@ To run the SIDER statistics and classification vector construction follow the fo
 ## L1000 Data
 To run the L1000 statistics and classification it is recommended that you start from the intermediate files provided:
 1) Download https://drive.google.com/file/d/0B0694sXjQ1_wcUtQSm9jeEgtZkk/view?usp=sharing
-2) Download https://drive.google.com/drive/folders/0B0694sXjQ1_wVjVJakRjWEdNQkE
+2) Download https://drive.google.com/file/d/0B0694sXjQ1_wWHJvS1RIRVRCcE0/view?usp=sharing
 3) Move these files into the /data dir
 
 ## Helpful Links
