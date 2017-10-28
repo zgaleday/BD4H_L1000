@@ -10,9 +10,13 @@ def cid_from_canonical_smiles(smiles):
     :param smiles: the canonical smiles string
     :return: returns the CID associates with the smiles string in the pubchem database (format 'CIDxxxx')
     """
-    cid = 'CID' + str(get_compounds(smiles, 'smiles')[0].cid)
-    print cid
-    return cid
+    try:
+        cid = 'CID' + str(get_compounds(smiles, 'smiles')[0].cid)
+        print cid
+        return cid
+    except:
+        return 'CIDNone'
+
 
 
 def read_cmpnds():
@@ -27,8 +31,11 @@ def read_cmpnds():
     cmpd_df = cmpd_df[(cmpd_df['canonical_smiles'] != '-666') & (cmpd_df['canonical_smiles'] != 'restricted')]
     vector_lookup = np.vectorize(cid_from_canonical_smiles)
     cmpd_df['CID'] = vector_lookup(cmpd_df['canonical_smiles'])
+    cmpd_df = cmpd_df[cmpd_df['CID'] != 'CIDNone']
     print cmpd_df
     return cmpd_df
+
+
 
 
 df = read_cmpnds()
