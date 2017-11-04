@@ -15,12 +15,17 @@ We chemistry, drugs, and data!
 
 See `build.sbt` for dependency versioning
 
-## Launching
+## Launching Feature Construction (Scala)
 Run the following commands in the root dir
 * `sbt`
 * `clean`
 * `project bd4h_l1000`
 * `runMain launch`
+
+## Launching Modealing (Python)
+1) `conda env create -f env.yml` to create env and load dependencies
+2) `source activate bd4h_l1000` to activate env
+3) `source deactivate` to deactivate
 
 ## OFFSIDES Data
 To run the offsides statistics and classification vector construction follow the following steps:
