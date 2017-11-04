@@ -17,13 +17,18 @@ object launch {
 
   def main(args: Array[String]): Unit = {
 
-    val offsidesData: RDD[Offside] = Utils.readOffsidesData(sc)
-    calcOffsidesStats(offsidesData)
+    // suppress those annoying spam of INFO messages
+    sc.setLogLevel("WARN")
 
-    SIDER.read_meddra_tsv(sc)
-    SIDER.read_meddra_all_se_tsv(sc)
+    //val offsidesData: RDD[Offside] = Utils.readOffsidesData(sc)
+    //calcOffsidesStats(offsidesData)
 
-    val l1000_features: DataFrame = loadFeatures(ss)
+    //SIDER.read_meddra_tsv(sc)
+    //SIDER.read_meddra_all_se_tsv(sc)
+
+    //val l1000_features: DataFrame = loadFeatures(ss)
+
+    DataProcessing.start(sc)
 
     sc.stop()
   }
