@@ -135,6 +135,13 @@ object DataProcessing {
 
     val drug_se = adrRDD.map(x => (x.stitchId, x.umlsId)).groupByKey()
     drug_se.coalesce(1, true).saveAsTextFile("all_side_effects")
+
+    val drug_perts = l1000IdsRDD.map(x => (x.pertId, x.stitchId)).join(l1000PertsRDD.map(x =>(x.pertId, x.perts))).map(x => (x._2._1, x._2._2))
+    drug_perts.coalesce(1, true).saveAsTextFile("all_perts")
+
+    val drug_se_perts = drug_se.join(drug_perts)
+    println("[info Number of data rows = %d".format(drug_se_perts.count()) )
+
   }
 
 }
