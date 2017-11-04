@@ -1,7 +1,7 @@
 # BD4H L1000 Project
 
 ## Overview
-We chemistry, drugs, and data!
+We love chemistry, drugs, and data!
 
 ## Contributors
 1) \#zgd || Zachary Gale-Day
