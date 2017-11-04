@@ -22,7 +22,7 @@ Run the following commands in the root dir
 * `project bd4h_l1000`
 * `runMain launch`
 
-## Launching Modealing (Python)
+## Launching Modeling (Python)
 1) `conda env create -f env.yml` to create env and load dependencies
 2) `source activate bd4h_l1000` to activate env
 3) `source deactivate` to deactivate
