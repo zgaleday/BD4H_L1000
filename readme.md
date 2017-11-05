@@ -45,6 +45,10 @@ To run the L1000 statistics and classification it is recommended that you start 
 2) Download https://drive.google.com/file/d/0B0694sXjQ1_wWHJvS1RIRVRCcE0/view?usp=sharing
 3) Move these files into the /data dir
 
+## Feature File for training
+Download the file at:
+https://drive.google.com/file/d/1fWUxgTo0QFOss_xNZgTdUM2qRkFtHtEg/view?usp=sharing
+
 ## Helpful Links
 
 * [SparkSql](https://spark.apache.org/docs/latest/sql-programming-guide.html#sql)
