@@ -1,5 +1,6 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import FastICA
+from sklearn.manifold import TSNE
 
 
 def reduce_dimensionality(x, alg='pca'):
