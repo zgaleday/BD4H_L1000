@@ -1,12 +1,14 @@
-from sklearn.decomposition import PCA
-from sklearn.decomposition import FastICA
-from sklearn.manifold import TSNE
+import pandas as pd
+from plotting import plot_hist
 
 
-def reduce_dimensionality(x, alg='pca'):
-    if alg is 'ica':
-        d = FastICA()
-    else:
-        d = PCA()
-    projected = d.fit_transform(x)
-    return projected, d
+def compute_target_distribution(labels, plot=False, verbose=False):
+    distribution = pd.DataFrame(labels).sum(axis=0)
+    if verbose:
+        print('target feature representation')
+        print('-----------------------------')
+        print(distribution.describe())
+        print('-----------------------------')
+    if plot:
+        plot_hist(distribution, 'target feature representation distribution')
+    return distribution
