@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import roc_curve, auc
+from sklearn.utils import shuffle
 import numpy as np
 
 RANDOM_STATE = 0
@@ -13,6 +14,8 @@ def get_train_test_data():
         .read_csv('data/pandas_input_combined.csv')\
         .dropna(axis=1, how='all')\
         .drop('CID', axis=1)
+    # shuffle raw data
+    raw_data = shuffle(raw_data, random_state=RANDOM_STATE)
     # build labels by squishing ADR columns
     labels = raw_data[raw_data.columns[raw_data.columns.str.contains('C')]].values
     # drop all ADR columns as they're captured in the labels
