@@ -3,6 +3,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 import numpy as np
 
+RANDOM_STATE = 0
 scaler = MinMaxScaler()
 
 
@@ -25,7 +26,10 @@ def get_train_test_data():
     normalized_data = pd.DataFrame(scaler.fit_transform(raw_data))
     print("normalized design matrix shape: " + str(normalized_data.shape))
     # cross-validate split
-    x_train, x_test, y_train, y_test = train_test_split(normalized_data, labels, test_size=0.4, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(normalized_data,
+                                                        labels,
+                                                        test_size=0.4,
+                                                        random_state=RANDOM_STATE)
     print("training data shape: " + str(x_train.shape) + ' ' + str(y_train.shape))
     print("test data shape: " + str(x_test.shape) + ' ' + str(y_test.shape))
     return x_train, x_test, y_train, y_test, normalized_data, labels
