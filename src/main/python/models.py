@@ -10,6 +10,8 @@ from sklearn.neural_network import MLPClassifier
 from plotting import plot_roc_curve
 
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import make_scorer
 
 RANDOM_SEED = 0
 
@@ -80,4 +82,15 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False):
         print('------ test data ----------')
     check_predictions(model, model_type, x_test, y_test, plot, verbose)
 
+    # get the cross-validation score
+
+    accuracy_scorer = make_scorer(calculate_overall_accuracy)
+    cv_accuracy_scores = cross_val_score(model, x, y, scoring=accuracy_scorer, cv=5)
+    cv_auc_scores = cross_val_score(model, x, y, scoring="roc_auc", cv=5)
+    
+    if verbose:
+        print('------ CV scores ----------')
+        print('one vs all ' + model_type + ' CV accuracy scores' + str(cv_accuracy_scores))
+        print('one vs all ' + model_type + ' CV AUC scores' + str(cv_auc_scores))
+    
     return 
