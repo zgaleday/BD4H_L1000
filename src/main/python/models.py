@@ -36,7 +36,10 @@ def check_predictions(model, model_type, x, y, plot, verbose) :
         plot_roc_curve(micro_fpr, micro_tpr, micro_roc_auc_score, model_type)
 
 
-    
+    return micro_fpr, micro_tpr, micro_roc_auc_score
+
+
+
 
 def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, run_cv=False):
 
@@ -91,12 +94,14 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
     # check the accuracy on the training data
     if verbose:
         print('------ training data ----------')
-    check_predictions(model, (model_type + " - train"), x_train, y_train, plot, verbose)
+
+    fpr_train, tpr_train, auc_train = check_predictions(model, (model_type + " - train"), x_train, y_train, plot, verbose)
     
     # check the accuracy on the test data
     if verbose:
         print('------ test data ----------')
-    check_predictions(model, (model_type + " - test"), x_test, y_test, plot, verbose)
+
+    fpr_test, tpr_test, auc_test =  check_predictions(model, (model_type + " - test"), x_test, y_test, plot, verbose)
 
     # get the cross-validation score
     if run_cv :
@@ -109,5 +114,6 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
             print('------ CV scores ----------')
             print('one vs all ' + model_type + ' CV accuracy scores ' + str(cv_accuracy_scores))
             print('one vs all ' + model_type + ' CV AUC scores ' + str(cv_auc_scores))
-    
-    return 
+
+            
+    return fpr_train, tpr_train, auc_train, fpr_test, tpr_test, auc_test
