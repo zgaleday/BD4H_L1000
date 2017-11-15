@@ -49,6 +49,10 @@ To run the L1000 statistics and classification it is recommended that you start 
 Download the file at:
 https://drive.google.com/file/d/1fWUxgTo0QFOss_xNZgTdUM2qRkFtHtEg/view?usp=sharing
 
+## Pre-selected features for training with CustomBRClassifier
+For 25 features selected with RFE dowload:
+https://drive.google.com/file/d/1H4Jei_yPlKu1yFFRvsOP9VcdgJX1HjeY/view?usp=sharing
+
 ## Helpful Links
 
 * [SparkSql](https://spark.apache.org/docs/latest/sql-programming-guide.html#sql)
