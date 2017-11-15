@@ -8,6 +8,7 @@ from sklearn.metrics import roc_auc_score
 from utils import calculate_multiclass_micro_roc_auc, calculate_overall_accuracy
 from sklearn.neural_network import MLPClassifier
 from plotting import plot_roc_curve
+from CustomBRClassifier import CustomBRClassifier
 
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
@@ -78,7 +79,9 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
         #base_model = SVC(kernel='linear', random_state=RANDOM_SEED, class_weight='balanced', activation="logistic", max_iter=500)
 
     # create the OvR model using the base classifier
-    model = OneVsRestClassifier(base_model, n_jobs=10)
+    # model = OneVsRestClassifier(base_model, n_jobs=10)
+    # create OvR model with base classifier and feature selection
+    model = CustomBRClassifier(base_model)
 
     # train the model using the training data
     fit_start = time.time()
