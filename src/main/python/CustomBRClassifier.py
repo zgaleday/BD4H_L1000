@@ -70,7 +70,7 @@ RANDOM_SEED = 0
 class CustomBRClassifier(object):
     """A custom model following the sklearn api that will perform feature selection before model training.  Defines
     the minimal API"""
-    def __init__(self, base_model, n_features, n_jobs=-1):
+    def __init__(self, base_model, n_features=25, n_jobs=-1):
         """
         Initializes the model taking the base sklearn model type as input and the desired number of features after
         selection
@@ -83,7 +83,7 @@ class CustomBRClassifier(object):
         self.n_features = n_features
         self.n_jobs = n_jobs
 
-    def fit(self, x_train, y_train, select_feats=True):
+    def fit(self, x_train, y_train, select_feats=False):
         """
         Trains the OVR with feature selection
         :param x_train: training data features
@@ -103,7 +103,6 @@ class CustomBRClassifier(object):
             ovr_fs.fit(self.X, self.Y)
             self.selectors = ovr_fs.estimators_
             self.new_feats = np.array([model.get_support() for model in self.selectors])
-            print self.new_feats
             np.save("../../../data/selected_features", self.new_feats)
         else:
             self._load_features()
@@ -118,7 +117,6 @@ class CustomBRClassifier(object):
                 "not %s" % self.label_binarizer_.classes_[i],
                 self.label_binarizer_.classes_[i]])
             for i, column in enumerate(columns))
-        print len(self.estimators_)
         return self
 
 
@@ -144,6 +142,7 @@ class CustomBRClassifier(object):
         y : (sparse) array-like, shape = [n_samples, ], [n_samples, n_classes].
             Predicted multi-class targets.
         """
+        X = X.values
         check_is_fitted(self, 'estimators_')
         if (hasattr(self.estimators_[0], "decision_function") and
                 is_classifier(self.estimators_[0])):
@@ -157,15 +156,15 @@ class CustomBRClassifier(object):
             maxima.fill(-np.inf)
             argmaxima = np.zeros(n_samples, dtype=int)
             for i, e in enumerate(self.estimators_):
-                pred = _predict_binary(e, X)
+                pred = _predict_binary(e, X[:, self.new_feats[i, :]])
                 np.maximum(maxima, pred, out=maxima)
                 argmaxima[maxima == pred] = i
             return self.classes_[np.array(argmaxima.T)]
         else:
             indices = array.array('i')
             indptr = array.array('i', [0])
-            for e in self.estimators_:
-                indices.extend(np.where(_predict_binary(e, X) > thresh)[0])
+            for i, e in enumerate(self.estimators_):
+                indices.extend(np.where(_predict_binary(e, X[:, self.new_feats[i, :]]) > thresh)[0])
                 indptr.append(len(indices))
             data = np.ones(len(indices), dtype=int)
             indicator = sp.csc_matrix((data, indices, indptr),
@@ -190,10 +189,11 @@ class CustomBRClassifier(object):
             Returns the probability of the sample for each class in the model,
             where classes are ordered as they are in `self.classes_`.
         """
+        X = X.values
         check_is_fitted(self, 'estimators_')
         # Y[i, j] gives the probability that sample i has the label j.
         # In the multi-label case, these are not disjoint.
-        Y = np.array([e.predict_proba(X)[:, 1] for e in self.estimators_]).T
+        Y = np.array([e.predict_proba(X[:, self.new_feats[i, :]])[:, 1] for i, e in enumerate(self.estimators_)]).T
 
         if len(self.estimators_) == 1:
             # Only one estimator, but we still want to return probabilities
@@ -213,7 +213,4 @@ class CustomBRClassifier(object):
         return self.label_binarizer_.y_type_.startswith('multilabel')
 
 
-x, y = get_train_test_data()
-base = LogisticRegression(penalty='l1', random_state=RANDOM_SEED)
-br = CustomBRClassifier(base, 25)
-br.fit(x,y, True)
+
