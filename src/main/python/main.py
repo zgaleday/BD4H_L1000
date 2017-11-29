@@ -9,8 +9,8 @@ target_distribution = compute_target_distribution(y, plot=False, verbose=False)
 
 plot_data = {}
 
-for model_type in ["logistic", "tree", "forest", "nnet", "adaboost"] :
-#for model_type in ["logistic"] : #, "tree"] :
+for model_type in ["logistic", "tree", "forest", "nnet", "adaboost", "extra", "SVC"] :
+# for model_type in ["logistic"] : #, "tree"] :
     plot_data[model_type] = multiclass_one_vs_rest(x, y, model_type, plot=False, verbose=True, run_cv=False)
 
 
