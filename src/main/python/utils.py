@@ -11,7 +11,7 @@ scaler = MinMaxScaler()
 def get_train_test_data():
     # read in data, drop CID, and drop columns that have any null values, e.g. NaN
     raw_data = pd\
-        .read_csv('data/pandas_input_combined.csv')\
+        .read_csv('../../../data/pandas_input_combined.csv')\
         .dropna(axis=1, how='all')\
         .drop('CID', axis=1)
     # shuffle raw data
@@ -45,7 +45,7 @@ def calculate_multiclass_micro_roc_auc(y, predictions):
 def calculate_overall_accuracy(y_true, predictions):
     total = 0.
     correct = 0.
-    for y, p in zip(y_true, predictions):
+    for y, p in zip(y_true, np.round(predictions)):
         and_operator = np.equal(y, p)
         total += and_operator.size
         correct += and_operator.sum()
