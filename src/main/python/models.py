@@ -3,7 +3,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier, ExtraTreesClassifier
 from sklearn.metrics import roc_auc_score
 from utils import calculate_multiclass_micro_roc_auc, calculate_overall_accuracy
 from sklearn.neural_network import MLPClassifier
@@ -20,7 +20,7 @@ RANDOM_SEED = 0
 def check_predictions(model, model_type, x, y, plot, verbose) :
     
     predict_start = time.time()
-    predictions = model.predict(x)
+    predictions = model.predict_proba(x)
     predict_end = time.time()
 
     micro_fpr, micro_tpr, micro_roc_auc_score = calculate_multiclass_micro_roc_auc(y, predictions)
@@ -70,6 +70,9 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
 
     elif model_type is 'nnet':
         base_model = MLPClassifier(random_state=RANDOM_SEED)
+
+    elif model_type is 'extra':
+        base_model = ExtraTreesClassifier(random_state=RANDOM_SEED)
 
     else:
         #base case
