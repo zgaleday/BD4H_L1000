@@ -90,8 +90,8 @@ class CustomBRClassifier(object):
         :param y_train: training data classes
         :return:
         """
-        self.X = x_train.values
-        self.Y = y_train
+        self.X = x_train.values.copy()
+        self.Y = y_train.copy()
         self.N = self.Y.shape[1]
         # c = Client(profile='myprofile')
         # bview = c.load_balanced_view()

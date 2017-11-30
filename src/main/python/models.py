@@ -9,10 +9,11 @@ from utils import calculate_multiclass_micro_roc_auc, calculate_overall_accuracy
 from sklearn.neural_network import MLPClassifier
 from plotting import plot_roc_curve
 from CustomBRClassifier import CustomBRClassifier
-
+from sklearn.cross_validation import KFold
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import make_scorer
+from sklearn.metrics import make_scorer, roc_auc_score
+import numpy as np
 
 RANDOM_SEED = 0
 
@@ -76,7 +77,7 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
 
     else:
         #base case
-        base_model = SVC(kernel='linear', random_state=RANDOM_SEED, class_weight='balanced')
+        base_model = SVC(kernel='linear', random_state=RANDOM_SEED, class_weight='balanced', probability=True)
 
         # no improvement here 
         #base_model = SVC(kernel='linear', random_state=RANDOM_SEED, class_weight='balanced', activation="logistic", max_iter=500)
@@ -113,8 +114,17 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
     if run_cv :
         
         accuracy_scorer = make_scorer(calculate_overall_accuracy)
-        cv_accuracy_scores = cross_val_score(model, x, y, scoring=accuracy_scorer, cv=5)
-        cv_auc_scores = cross_val_score(model, x, y, scoring="roc_auc", cv=5)
+        kf = KFold(x.values.shape[0], n_folds=5, shuffle=True, random_state=RANDOM_SEED)
+        cv_accuracy_scores = []
+        cv_auc_scores = []
+        for train_index, test_index in kf:
+            X_train, X_test = x.iloc[train_index, np.arange(0,x.shape[1])], x.iloc[test_index, np.arange(0,x.shape[1])]
+            Y_train, Y_test = y[train_index], y[test_index]
+            model.fit(X_train, Y_train)
+            cv_accuracy_scores.append(roc_auc_score(Y_test, model.predict_proba(X_test), average='micro'))
+            cv_auc_scores.append(calculate_overall_accuracy(Y_test, model.predict_proba(X_test)))
+        cv_accuracy_scores = np.mean(np.array(cv_accuracy_scores))
+        cv_auc_scores = np.mean(np.array(cv_auc_scores))
     
         if verbose:
             print('------ CV scores ----------')
