@@ -9,9 +9,8 @@ from utils import calculate_multiclass_micro_roc_auc, calculate_overall_accuracy
 from sklearn.neural_network import MLPClassifier
 from plotting import plot_roc_curve
 from CustomBRClassifier import CustomBRClassifier
-from sklearn.cross_validation import KFold
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GroupKFold
 from sklearn.metrics import make_scorer, roc_auc_score
 import numpy as np
 
@@ -114,10 +113,10 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
     if run_cv :
         
         accuracy_scorer = make_scorer(calculate_overall_accuracy)
-        kf = KFold(x.values.shape[0], n_folds=5, shuffle=True, random_state=RANDOM_SEED)
+        kf = GroupKFold(5)
         cv_accuracy_scores = []
         cv_auc_scores = []
-        for train_index, test_index in kf:
+        for train_index, test_index in kf.split(x, y=y, groups=np.arange(x.shape[0])):
             X_train, X_test = x.iloc[train_index, np.arange(0,x.shape[1])], x.iloc[test_index, np.arange(0,x.shape[1])]
             Y_train, Y_test = y[train_index], y[test_index]
             model.fit(X_train, Y_train)
