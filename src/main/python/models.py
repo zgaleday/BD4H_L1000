@@ -5,9 +5,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier, ExtraTreesClassifier
 from sklearn.metrics import roc_auc_score
-from utils import calculate_multiclass_micro_roc_auc, calculate_overall_accuracy
+from utils import *
 from sklearn.neural_network import MLPClassifier
-from plotting import plot_roc_curve
+from plotting import *
 from CustomBRClassifier import CustomBRClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GroupKFold
@@ -100,7 +100,6 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
     # check the accuracy on the training data
     if verbose:
         print('------ training data ----------')
-
     fpr_train, tpr_train, auc_train = check_predictions(model, (model_type + " - train"), x_train, y_train, plot, verbose)
     
     # check the accuracy on the test data
@@ -108,6 +107,7 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
         print('------ test data ----------')
 
     fpr_test, tpr_test, auc_test =  check_predictions(model, (model_type + " - test"), x_test, y_test, plot, verbose)
+    # generate_roc_hist(y_test, model.predict_proba(x_test))
 
     # get the cross-validation score
     if run_cv :
@@ -120,8 +120,8 @@ def multiclass_one_vs_rest(x, y, model_type='svm', plot=False, verbose=False, ru
             X_train, X_test = x.iloc[train_index, np.arange(0,x.shape[1])], x.iloc[test_index, np.arange(0,x.shape[1])]
             Y_train, Y_test = y[train_index], y[test_index]
             model.fit(X_train, Y_train)
-            cv_accuracy_scores.append(roc_auc_score(Y_test, model.predict_proba(X_test), average='micro'))
-            cv_auc_scores.append(calculate_overall_accuracy(Y_test, model.predict_proba(X_test)))
+            cv_auc_scores.append(roc_auc_score(Y_test, model.predict_proba(X_test), average='micro'))
+            cv_accuracy_scores.append(calculate_overall_accuracy(Y_test, model.predict_proba(X_test)))
         cv_accuracy_scores = np.mean(np.array(cv_accuracy_scores))
         cv_auc_scores = np.mean(np.array(cv_auc_scores))
     
