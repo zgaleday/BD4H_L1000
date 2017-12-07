@@ -13,6 +13,8 @@ from sklearn.preprocessing import LabelBinarizer
 from joblib import Parallel, delayed
 from ipyparallel import *
 
+"""Code adapted from the sklearn source for OneVsRestClassifier, added functionality includes the parallelized feature
+selection (not compatable with sklearn interface)"""
 
 def _fit_binary(estimator, X, y, classes=None):
     """Fit a single binary estimator."""
@@ -88,6 +90,8 @@ class CustomBRClassifier(object):
         Trains the OVR with feature selection
         :param x_train: training data features
         :param y_train: training data classes
+        :param select_feats: If select feats is false the selected_features.npy file will be used as a mask on the features
+        previously selected feature will be overwritten after each round of FS
         :return:
         """
         self.X = x_train.values.copy()

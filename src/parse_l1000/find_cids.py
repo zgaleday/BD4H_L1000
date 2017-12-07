@@ -19,7 +19,7 @@ def cid_from_canonical_smiles(smiles):
 
 
 
-def read_cmpnds():
+def read_cmpnds(save=True):
     """
     reads in the pert id data as a pandas df object with only compound perts
     :return: df
@@ -32,11 +32,11 @@ def read_cmpnds():
     vector_lookup = np.vectorize(cid_from_canonical_smiles)
     cmpd_df['CID'] = vector_lookup(cmpd_df['canonical_smiles'])
     cmpd_df = cmpd_df[cmpd_df['CID'] != 'CIDNone']
-    print cmpd_df
+    if save:
+        df.to_csv("../../data/perts_with_cid.txt", delimeter='\t')
     return cmpd_df
 
 
 
 
 df = read_cmpnds()
-df.to_csv("../../data/perts_with_cid.txt", delimeter='\t')

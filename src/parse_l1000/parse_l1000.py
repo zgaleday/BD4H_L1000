@@ -63,7 +63,7 @@ def read_reduced():
     ### return data_frame with pert_ids in row_major form ready for scala
     return reduced_data.data_df.transpose()
 
-def max_mag_sig(df, thresh=3.0):
+def max_mag_sig(df, thresh=3.0, save=True):
     """
     Read in the the data frame as output from read reduces, thresholds based on the z-score and computes the magnitude
     of the signature as a linear combination of the L1000 transcripts.
@@ -81,6 +81,8 @@ def max_mag_sig(df, thresh=3.0):
     ### clean up after myself
     df.drop(df.columns[-2:], axis=1, inplace=True)
     df.columns = np.arange(1, df.shape[1]+1)
+    if save:
+        df.to_csv(join(FILE_PATH, "l1000_scala_features.txt"), delimeter='\t')
     return df
 
 def pert_stats(df, verbose=False):
@@ -124,7 +126,3 @@ def feature_stats(df, verbose=False):
     return df_mean, df_med, df_min, df_max
 
 
-rd = read_reduced()
-rd = max_mag_sig(rd)
-feature_stats(rd, True)
-# rd.to_csv(join(FILE_PATH, "l1000_scala_features.txt"), delimeter='\t')
