@@ -72,17 +72,6 @@ see below.
 1) If all of the above file are included in your data directory nagivate to src/main/python
 2) To reproduce the models shown in the paper simply run main.py
 
-#### Running Feature Selection
-We are running recursive feature selection and the current implementation would run before each model training.  It is therefore recommended to either
-use our preselected features or run feature selection once (saving you file see docstring in comment) otherwise result reproduction will take several days
-most likely.
-1) Navigate to line 91 of models.py
-2) sets the select_feats parameter of model.fit == True
-3) Run main.py as before.
-If you want to run single models you can remove models from the array in main.py.
-Valid arguements are "logistic", "tree", "forest", "nnet", "adaboost", "extra", "SVC"
-
-
 #### Filtering L1000 Dataset
 Warning this is a very slow and space intensive process it is recommended to start from the preprocessed data above!
 1) Navigate to https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE70138
@@ -114,3 +103,13 @@ Please ensure that all the raw data has been downloaded into the "./data" direct
 to the top of the file
 
 This is good to go for training an model creation! See description above for details!
+
+#### Running Feature Selection
+We are running recursive feature selection and the current implementation would run before each model training.  It is therefore recommended to either
+use our preselected features or run feature selection once (saving you file see docstring in comment) otherwise result reproduction will take several days
+most likely.
+1) Navigate to line 91 of models.py
+2) sets the select_feats parameter of model.fit == True
+3) Run main.py as before.
+If you want to run single models you can remove models from the array in main.py.
+Valid arguements are "logistic", "tree", "forest", "nnet", "adaboost", "extra", "SVC"
